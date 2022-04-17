@@ -63,7 +63,7 @@ const Navbar = () => {
     return (
         <nav className="d-flex justify-content-between align-items-center px-3 py-1 bg-info" key={"left"}>
             <Link to={"/"} className="mb-0 fw-bold text-light text-decoration-none"> <h1> MERN </h1> </Link>
-            <Button variant="outlined" color="primary" startIcon={<ListIcon />} onClick={toggleDrawer("left", true)}> Menu </Button>
+            <Button variant="contained" color="primary" startIcon={<ListIcon />} onClick={toggleDrawer("left", true)}> Menu </Button>
             <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
                 {list("left")}
             </Drawer>
