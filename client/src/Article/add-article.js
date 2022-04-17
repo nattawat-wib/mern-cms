@@ -23,11 +23,16 @@ const AddArticle = () => {
         article_form.append("article", JSON.stringify(article))
 
         console.log(article_form);
-        console.log(image);
-        console.log(article);
 
-        axios.post("http://localhost:8080/test-upload", article_form).then(resp => {
-            console.log(resp);
+        // axios.post("http://localhost:8080/test-upload", article_form).then(resp => {
+        //     console.log(resp);
+        // })
+
+        axios({
+            method: "post",
+            url: "http://localhost:8080/test-upload",
+            data: article_form,
+            headers: { "Content-Type": "multipart/form-data" },
         })
 
         updateArticle({})
@@ -65,7 +70,7 @@ const AddArticle = () => {
                                     <input type="file" name={upload_for} onChange={handle_image_select} hidden />
                                     {upload_for}
                                 </Button>
-                                { image[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null })) } className="text-danger" /> : null }
+                                {image[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} className="text-danger" /> : null}
                             </Grid>
                         ))
                     }
