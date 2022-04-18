@@ -18,15 +18,15 @@ const AddArticle = () => {
         e.preventDefault()
 
         const article_form = new FormData();
-        article_form.append("thumbnail", image.thumbnail)
+        
         article_form.append("banner", image.banner)
         article_form.append("article", JSON.stringify(article))
 
         console.log(article_form);
 
-        // axios.post("http://localhost:8080/test-upload", article_form).then(resp => {
-        //     console.log(resp);
-        // })
+        axios.post("http://localhost:8080/test-upload", article_form).then(resp => {
+            console.log(resp);
+        })
 
         axios({
             method: "post",
@@ -35,8 +35,8 @@ const AddArticle = () => {
             headers: { "Content-Type": "multipart/form-data" },
         })
 
-        updateArticle({})
-        setImage({})
+        // updateArticle({})
+        // setImage({})
     }
 
     const handle_image_select = e => {
