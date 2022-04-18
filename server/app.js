@@ -14,9 +14,7 @@ const upload = multer({
 
 app.post("/test-upload", upload.single("banner"), (req, res) => {
     console.log(JSON.parse(req.body.article));
-    console.log(req.file);
-
-    
+    console.log(req.file);    
 })
 
 app.listen(8080, () => {
