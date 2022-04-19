@@ -8,13 +8,11 @@ app.use(express.json());
 
 app.use(cors());
 
-const upload = multer({ 
-    dest: "./uploads"
-});
+const upload = multer({  dest: "./uploads" });
 
 app.post("/test-upload", upload.single("banner"), (req, res) => {
-    console.log(JSON.parse(req.body.article));
-    console.log(req.file);    
+    // // console.log(JSON.parse(req.body.article));
+    // console.log(req.file);
 })
 
 app.listen(8080, () => {
