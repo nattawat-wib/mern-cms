@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const articleController = require("../controller/articleController");
 const multer = require("multer");
-const upload = multer({  dest: "./uploads" });
+const upload = multer({  dest: "./../client/uploads" });
 
 router.route("/")
     .get(articleController.get_all_article)

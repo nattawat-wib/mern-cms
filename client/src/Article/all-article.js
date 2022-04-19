@@ -21,7 +21,7 @@ const AllArticle = () => {
                             <h2> {article.title} </h2>
                             <p> {article.desc} </p>
                             <p> {article.url} </p>
-                            {/* <img src={`/uploads/${article.banner}`} /> */}
+                            <img src={`./../uplods/${article.filename}`} />
                         </div> 
                     )
                 })
