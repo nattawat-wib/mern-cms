@@ -34,6 +34,9 @@ const AddArticle = () => {
             data: article_form,
             headers: { "Content-Type": "multipart/form-data" },
         })
+
+        updateArticle({})
+        setImage({})
     }
 
     const handle_image_select = e => {
