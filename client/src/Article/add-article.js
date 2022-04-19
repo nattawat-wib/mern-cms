@@ -24,7 +24,7 @@ const AddArticle = () => {
 
         console.log(article_form);
 
-        axios.post("http://localhost:8080/test-upload", article_form).then(resp => {
+        axios.post("http://localhost:8080/article", article_form).then(resp => {
             console.log(resp);
         })
 
@@ -34,12 +34,6 @@ const AddArticle = () => {
             data: article_form,
             headers: { "Content-Type": "multipart/form-data" },
         })
-
-
-        // useEffect(() => {
-        // }, [])
-        // updateArticle({})
-        // setImage({})
     }
 
     const handle_image_select = e => {
