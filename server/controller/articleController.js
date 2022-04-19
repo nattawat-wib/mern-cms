@@ -6,8 +6,6 @@ exports.add_article = async (req, res) => {
         banner: req.file.filename
     })
 
-    console.log(new_article);
-
     res.status(200).json({
         status: "success",
         data: new_article
