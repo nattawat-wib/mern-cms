@@ -28,7 +28,7 @@ exports.delete_article = async (req, res) => {
 }
 
 exports.get_article = async (req, res) => {
-    const article = new Article.findOne({ url: req.params.url });
+    const article = await Article.findOne({ url: req.params.url });
 
     if(!article) {
         res.status(404).json({

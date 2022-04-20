@@ -10,6 +10,6 @@ router.route("/")
 
 router.route("/:url")
     .delete(articleController.delete_article)
-    // .get(articleController.delete_article)
+    .get(articleController.get_article)
 
 module.exports = router

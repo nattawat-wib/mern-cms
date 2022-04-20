@@ -17,6 +17,9 @@ const AllArticle = () => {
         })
     }
 
+    console.log(all_article);
+    
+
     return (
         <Fragment>
             <Grid container spacing={3}>
@@ -24,12 +27,13 @@ const AllArticle = () => {
                     all_article.map((article, i) => {
                         return (
                             <Grid item xs={4} key={i}>
-                                <h2> {article.title} </h2>
-                                <p dangerouslySetInnerHTML={{__html: article.desc}} />
-                                <p> {article.url} </p>
+                                <h2 className="line-clamp-2"> {article.title} </h2>
+                                <p className="line-clamp-4" dangerouslySetInnerHTML={{__html: article.desc}} />
+                                {/* <p> {article.url} </p> */}
                                 <figure className="position-relative" style={{paddingTop: "56.26%"}}>
                                     <img className="fit-img" src={`/uploads/${article.banner}`} />
                                 </figure>
+                                <small> Date : {article.createdDate} </small>
                                 <div className="text-center">
                                     <Button variant="outlined" color="secondary" onClick={() => delete_article(article.url)}> Delete </Button>
                                     <Button component={Link} to={`/article/${article.url}`} variant="outlined" color="primary"> Read More... </Button>

@@ -16,6 +16,14 @@ const articleSchema = new mongoose.Schema({
     banner: {
         required: true,
         type: String
+    },
+    createdTimestamp: {
+        type: Number,
+        default: Date.now()
+    },
+    createdDate: {
+        type: String,
+        default: new Date().toLocaleString().split(",")[0]
     }
 })
 

@@ -15,6 +15,7 @@ function App() {
                     <Route index path="/add-article" element={<AddArticle />} />
                     <Route path="/" element={<AllArticle />} />
                     <Route path="/all-article" element={<AllArticle />} />
+                    <Route path="/home" element={<AllArticle />} />
                     <Route path="/article/:url" element={<DetailArticle />} />
                 </Routes>
             </main>
