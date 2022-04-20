@@ -5,7 +5,11 @@ const multer = require("multer");
 const upload = multer({  dest: "./../client/public/uploads" });
 
 router.route("/")
-    .get(articleController.get_all_article)
-    .post(upload.single("banner"), articleController.add_article)
+.get(articleController.get_all_article)
+.post(upload.single("banner"), articleController.add_article)
+
+router.route("/:url")
+    .delete(articleController.delete_article)
+    // .get(articleController.delete_article)
 
 module.exports = router

@@ -15,10 +15,31 @@ exports.add_article = async (req, res) => {
 exports.get_all_article = async (req, res) => {
     const all_article = await Article.find();
 
-    console.log(all_article);
-
     res.status(200).json({
         status: "success",
         data: all_article
+    })
+}
+
+exports.delete_article = async (req, res) => {    
+    await Article.findOneAndDelete({ url: req.params.url })
+
+    res.status(200).json({ status: "success" })
+}
+
+exports.get_article = async (req, res) => {
+    const article = new Article.findOne({ url: req.params.url });
+
+    if(!article) {
+        res.status(404).json({
+            status: "error",
+            msg: "this article is not exist!!!"
+        })
+        return 
+    }
+    
+    res.status(200).json({
+        status: "success",
+        data: article
     })
 }

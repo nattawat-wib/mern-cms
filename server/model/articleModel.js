@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-module.exports = mongoose.model("article", new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
     title: {
         required: true,
         type: String
@@ -17,4 +17,11 @@ module.exports = mongoose.model("article", new mongoose.Schema({
         required: true,
         type: String
     }
-}))
+})
+
+articleSchema.pre("save", function(next) {    
+    this.url = this.url.trim().toLowerCase().split(" ").join("-")
+    next()
+})
+
+module.exports = mongoose.model("article", articleSchema)
