@@ -41,7 +41,6 @@ const AddArticle = () => {
 
     const handle_image_select = e => {
         setImage(prev => ({ ...prev, [e.target.name]: e.target.files[0] }))
-        console.log(image);
     }
 
     return (
@@ -57,7 +56,6 @@ const AddArticle = () => {
                 />
                 <TextField onChange={changeArticle} value={article.url || ""} name="url" className="my-4" fullWidth label="url" size="small" color="primary" helperText="url should not contain space or /" />
 
-                {/* file upload */}
                 <h4 className="mb-0"> File upload </h4>
                 <Grid container className="text-center" spacing={2}>
                     {

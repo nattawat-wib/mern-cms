@@ -37,26 +37,16 @@ const Navbar = () => {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {['Home', 'Add Article', 'All Article'].map((text, index) => (
-                    <ListItem button key={text} component={Link} to={`/${text.toLowerCase().split(" ").join("-")}`}>
+                {[ {name:'Home', url: "/"}, {name:'Add Article', url: "/article/add"}, {name:'All Article', url:"/article"}].map((text, index) => (
+                    <ListItem button key={index} component={Link} to={text.url}>
                         <ListItemIcon>
                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                         </ListItemIcon>
-                        <ListItemText primary={text} />
+                        <ListItemText primary={text.name} />
                     </ListItem>
                 ))}
             </List>
             <Divider />
-            <List>
-                {['Home', 'Add Article', 'All Article'].map((text, index) => (
-                    <ListItem button key={text} component={Link} to={`/${text.toLowerCase().split(" ").join("-")}`}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
         </Box>
     );
 
