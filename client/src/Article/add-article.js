@@ -76,7 +76,9 @@ const AddArticle = () => {
                 <div className="text-end">
                     <Button type="submit" startIcon={<AddCircleIcon />} variant="contained"> Add Article </Button>
                 </div>
-                <Alert severity="error">
+
+
+                <Alert severity="info">
                     <AlertTitle>Error</AlertTitle>
                     This is an error alert — <strong>check it out!</strong>
                 </Alert>
