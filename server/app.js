@@ -8,6 +8,7 @@ const articleRouter = require("./routes/articleRoute");
 // connect DB
 require("./db/mongoose");
 
+app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

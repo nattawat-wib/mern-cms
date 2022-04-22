@@ -19,10 +19,9 @@ const AddArticle = () => {
 
         const article_form = new FormData();
         
-        article_form.append("banner", image.banner)
-        article_form.append("article", JSON.stringify(article))
-
-        console.log(article_form);
+        article_form.append("thumbnail", image.thumbnail)                    
+                    .append("banner", image.banner)
+                    .append("article", JSON.stringify(article))
 
         axios.post("http://localhost:8080/article", article_form).then(resp => {
             console.log(resp);

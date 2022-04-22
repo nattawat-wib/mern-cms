@@ -44,7 +44,7 @@ const EditArticle = () => {
                             ["thumbnail", "banner"].map((upload_for, i) => (
                                 <Grid item xs={12} sm={6} className="mt-3 mb-5" key={i}>
                                     <figure className="w-100 position-relative" style={{ paddingTop: "52.65%" }}>
-                                        <img className="fit-img" src={image[upload_for] ? URL.createObjectURL(image[upload_for]) : `${article[upload_for] ? `/uploads/${article[upload_for]}` : "https://via.placeholder.com/1920x1080.png/09f/fff"}`} />
+                                        <img className="fit-img" src={image[upload_for] ? URL.createObjectURL(image[upload_for]) : `${article[upload_for] ? `http://localhost:8080/uploads/${article[upload_for]}` : "https://via.placeholder.com/1920x1080.png/09f/fff"}`} />
                                     </figure>
                                     <Button size="small" component="label" variant="outlined" startIcon={<FileUploadIcon />}>
                                         <input type="file" name={upload_for} onChange={handle_image_select} hidden />

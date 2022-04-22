@@ -1,9 +1,13 @@
 const Article = require("../model/articleModel");
 
 exports.add_article = async (req, res) => {
+    console.log(req.files);
+    
+
     const new_article = await Article.create({
         ...JSON.parse(req.body.article),
-        banner: req.file.filename
+        thumbnail: req.files.thumbnail[0].filename,
+        banner: req.files.banner[0].filename,
     })
 
     res.status(200).json({

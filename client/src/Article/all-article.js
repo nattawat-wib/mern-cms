@@ -20,22 +20,17 @@ const AllArticle = () => {
         })
     }
 
-    console.log(all_article)
-
     return (
         <Fragment>
             <Grid container spacing={3}>
                 {
                     all_article.map((article, i) => {
-                        console.log(article);
-                        
                         return (
                             <Grid item xs={4} key={i}>
                                 <h2 className="line-clamp-2"> {article.title} </h2>
                                 <p className="line-clamp-4" dangerouslySetInnerHTML={{ __html: article.desc }} />
-                                {/* <p> {article.url} </p> */}
                                 <figure className="position-relative" style={{ paddingTop: "56.26%" }}>
-                                    <img className="fit-img" src={`/uploads/${article.banner}`} />
+                                    <img className="fit-img" src={`http://localhost:8080/uploads/${article.thumbnail}`} />
                                 </figure>
                                 <small> Date : {article.createdDate} </small>
                                 <div className="mt-3 d-flex justify-content-center">

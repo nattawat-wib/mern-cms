@@ -17,6 +17,10 @@ const articleSchema = new mongoose.Schema({
         required: true,
         type: String
     },
+    thumbnail: {
+        require: true,
+        type: String
+    },
     createdTimestamp: {
         type: Number,
         default: Date.now()
