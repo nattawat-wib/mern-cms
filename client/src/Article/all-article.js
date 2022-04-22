@@ -1,14 +1,18 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Tooltip } from "@mui/material";
+import { Button, Grid, Tooltip, Backdrop, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 const AllArticle = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const get_all_article = () => {
-        axios.get("http://localhost:8080/article").then(resp => set_all_article(resp.data.data))
+        axios.get("http://localhost:8080/article").then(resp => {
+            set_all_article(resp.data.data)
+            setIsLoading(false)
+        })
     }
 
     const [all_article, set_all_article] = useState([]);
@@ -22,6 +26,7 @@ const AllArticle = () => {
 
     return (
         <Fragment>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>            
             <Grid container spacing={3}>
                 {
                     all_article.map((article, i) => {

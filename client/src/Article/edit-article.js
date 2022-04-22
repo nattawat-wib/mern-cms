@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Divider, TextField, Container, Grid, Button } from '@mui/material';
+import { Divider, TextField, Container, Grid, Button, Backdrop, CircularProgress} from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const EditArticle = () => {
     const [article, setArticle] = useState({});
     const [image, setImage] = useState({});
+    const [isLoading, setIsLoading] = useState(true);    
 
     const handle_image_select = e => {
         setImage(prev => ({ ...prev, [e.target.name]: e.target.files[0] }))
@@ -20,15 +21,15 @@ const EditArticle = () => {
     const { url } = useParams();
 
     useEffect(() => {
-
         axios.get(`http://localhost:8080/article/${url}`).then(resp => {
-            console.log(resp);
             setArticle(resp.data.data)
+            setIsLoading(false)            
         })
     }, [])
 
     return (
         <Fragment>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>                        
             <Container maxWidth="sm">
                 <form>
                     <h1 className="text-center"> Edit Article </h1>

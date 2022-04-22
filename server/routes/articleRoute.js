@@ -3,7 +3,7 @@ const router = express.Router();
 const articleController = require("../controller/articleController");
 const multer = require("multer");
 
-const upload = multer({  dest: "./../client/public/uploads" });
+const upload = multer({  dest: "./public/uploads" });
 const multi_file_upload = upload.fields([{ name: "thumbnail" }, { name: "banner" }]);
 
 router.route("/")

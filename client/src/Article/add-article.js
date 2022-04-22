@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, TextField, Button, Grid } from "@mui/material";
+import { Container, TextField, Button, Grid, Alert, AlertTitle } from "@mui/material";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -18,10 +18,10 @@ const AddArticle = () => {
         e.preventDefault()
 
         const article_form = new FormData();
-        
-        article_form.append("thumbnail", image.thumbnail)                    
-                    .append("banner", image.banner)
-                    .append("article", JSON.stringify(article))
+
+        article_form.append("thumbnail", image.thumbnail)
+        article_form.append("banner", image.banner)
+        article_form.append("article", JSON.stringify(article))
 
         axios.post("http://localhost:8080/article", article_form).then(resp => {
             console.log(resp);
@@ -50,7 +50,7 @@ const AddArticle = () => {
                 <hr />
                 <br />
                 <TextField onChange={changeArticle} value={article.title || ""} name="title" className="mb-4" fullWidth label="title" size="small" color="primary" />
-                <CKEditor editor={ClassicEditor} data={article.name || "<p> write article detail here </p>"}
+                <CKEditor editor={ClassicEditor} data={article.desc || "<p> write article detail here </p>"}
                     onChange={(e, editor) => updateArticle(prev_data => ({ ...prev_data, desc: editor.getData() }))}
                 />
                 <TextField onChange={changeArticle} value={article.url || ""} name="url" className="my-4" fullWidth label="url" size="small" color="primary" helperText="url should not contain space or /" />
@@ -76,6 +76,16 @@ const AddArticle = () => {
                 <div className="text-end">
                     <Button type="submit" startIcon={<AddCircleIcon />} variant="contained"> Add Article </Button>
                 </div>
+                <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    This is an error alert — <strong>check it out!</strong>
+                </Alert>
+
+                <Alert variant="outlined" severity="error">
+                    This is an error alert — check it out!
+                </Alert>
+                <Alert severity="error">This is an error alert — check it out!</Alert>
+
             </form>
         </Container>
     )
