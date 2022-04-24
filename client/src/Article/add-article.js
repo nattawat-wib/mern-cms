@@ -1,17 +1,25 @@
-import { useState, useEffect } from "react";
-import { Container, TextField, Button, Grid, Alert, AlertTitle } from "@mui/material";
+import { useState } from "react";
+import { Container, TextField, Button, Grid } from "@mui/material";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from "axios";
 
+// MUI components
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import axios from "axios";
+// components
+import { NotifySnackbar } from "./../components/Notification";
 
 const AddArticle = () => {
     const [article, updateArticle] = useState({});
     const [image, setImage] = useState({});
+    const [alertNotify, setAlertNotify] = useState({
+        is_open: false,
+        status: "",
+        message: "",
+    });
 
     const changeArticle = e => updateArticle(prev_data => ({ ...prev_data, [e.target.name]: e.target.value }))
     const submitArticle = e => {
@@ -24,18 +32,14 @@ const AddArticle = () => {
         article_form.append("article", JSON.stringify(article))
 
         axios.post("http://localhost:8080/article", article_form).then(resp => {
-            console.log(resp);
-        })
+            setAlertNotify({ is_open: true, status: resp.data.status, message: resp.data.message })
 
-        axios({
-            method: "post",
-            url: "http://localhost:8080/test-upload",
-            data: article_form,
-            headers: { "Content-Type": "multipart/form-data" },
+            if (resp.data.status === "success") {
+                setTimeout(() => {
+                    window.location.href = `/article/${article.url}`
+                }, 1000)
+            }
         })
-
-        updateArticle({})
-        setImage({})
     }
 
     const handle_image_select = e => {
@@ -44,6 +48,7 @@ const AddArticle = () => {
 
     return (
         <Container maxWidth="sm" className="my-5">
+            <NotifySnackbar alert={alertNotify} />
             <form onSubmit={submitArticle}>
                 <h1 className="text-center"> Add Article </h1>
                 <br />
@@ -76,17 +81,6 @@ const AddArticle = () => {
                 <div className="text-end">
                     <Button type="submit" startIcon={<AddCircleIcon />} variant="contained"> Add Article </Button>
                 </div>
-
-
-                <Alert severity="info">
-                    <AlertTitle>Error</AlertTitle>
-                    This is an error alert — <strong>check it out!</strong>
-                </Alert>
-
-                <Alert variant="outlined" severity="error">
-                    This is an error alert — check it out!
-                </Alert>
-                <Alert severity="error">This is an error alert — check it out!</Alert>
 
             </form>
         </Container>

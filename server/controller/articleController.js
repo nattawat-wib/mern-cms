@@ -1,17 +1,40 @@
 const Article = require("../model/articleModel");
 
 exports.add_article = async (req, res) => {
-    console.log(req.files);
+    req.body.article = JSON.parse(req.body.article);
     
+    const not_valid_key = [];
+    ["title", "desc", "url"].forEach(key => {
+        if(!req.body.article[key]) not_valid_key.push(key)
+    });
+
+    ["thumbnail", "banner"].forEach(key => { 
+        if(!req.files[key]) not_valid_key.push(key)
+    });
+
+    if(not_valid_key.length) {        
+        return res.status(200).json({
+            status: "error",
+            message: `${not_valid_key.join(", ")} is not allowed to be empty!`,
+        })
+    }
+
+    if(req.body.article.url.includes(" ")) {
+        return res.status(200).json({
+            status: "error",
+            message: "url should not be contain space",
+        })        
+    }
 
     const new_article = await Article.create({
-        ...JSON.parse(req.body.article),
+        ...req.body.article,
         thumbnail: req.files.thumbnail[0].filename,
         banner: req.files.banner[0].filename,
     })
 
     res.status(200).json({
         status: "success",
+        message: "Add article successfully",
         data: new_article
     })
 }
