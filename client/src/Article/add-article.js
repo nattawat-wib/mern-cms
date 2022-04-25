@@ -13,15 +13,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { NotifySnackbar } from "./../components/Notification";
 
 const AddArticle = () => {
-    const [article, updateArticle] = useState({});
+    const [article, setArticle] = useState({});
     const [image, setImage] = useState({});
-    const [alertNotify, setAlertNotify] = useState({
+    const [notify, setNotify] = useState({
         is_open: false,
         status: "",
         message: "",
     });
 
-    const changeArticle = e => updateArticle(prev_data => ({ ...prev_data, [e.target.name]: e.target.value }))
+    const changeArticle = e => setArticle(prev_data => ({ ...prev_data, [e.target.name]: e.target.value }))
     const submitArticle = e => {
         e.preventDefault()
 
@@ -32,12 +32,16 @@ const AddArticle = () => {
         article_form.append("article", JSON.stringify(article))
 
         axios.post("http://localhost:8080/article", article_form).then(resp => {
-            setAlertNotify({ is_open: true, status: resp.data.status, message: resp.data.message })
+            setNotify({ 
+                is_open: true, 
+                status: resp.data.status, 
+                message: resp.data.message 
+            })
 
             if (resp.data.status === "success") {
-                setTimeout(() => {
-                    window.location.href = `/article/${article.url}`
-                }, 1000)
+                setTimeout(() => { window.location.href = `/article/${article.url}` }, 1000)
+                setArticle({})
+                setImage({})
             }
         })
     }
@@ -48,7 +52,7 @@ const AddArticle = () => {
 
     return (
         <Container maxWidth="sm" className="my-5">
-            <NotifySnackbar alert={alertNotify} />
+            <NotifySnackbar notify={notify} />
             <form onSubmit={submitArticle}>
                 <h1 className="text-center"> Add Article </h1>
                 <br />
@@ -56,7 +60,7 @@ const AddArticle = () => {
                 <br />
                 <TextField onChange={changeArticle} value={article.title || ""} name="title" className="mb-4" fullWidth label="title" size="small" color="primary" />
                 <CKEditor editor={ClassicEditor} data={article.desc || "<p> write article detail here </p>"}
-                    onChange={(e, editor) => updateArticle(prev_data => ({ ...prev_data, desc: editor.getData() }))}
+                    onChange={(e, editor) => setArticle(prev_data => ({ ...prev_data, desc: editor.getData() }))}
                 />
                 <TextField onChange={changeArticle} value={article.url || ""} name="url" className="my-4" fullWidth label="url" size="small" color="primary" helperText="url should not contain space or /" />
 

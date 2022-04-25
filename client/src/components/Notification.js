@@ -2,32 +2,24 @@ import { useState, useEffect } from "react";
 import { Snackbar, Alert, AlertTitle } from "@mui/material";
 
 export const NotifySnackbar = prop => {
-    const [alert, setAlert] = useState(prop.alert);
+    const [notify, setNotify] = useState(prop.notify);
 
-    useEffect(() => {
-        setAlert(prop.alert)
-        console.log("alert", alert);
-        console.log("prop.alert", prop.alert);
-        
-    }, [prop])
-    
+    useEffect(() => { setNotify(prop.notify) }, [prop])
+
     return (
-        <Snackbar onClose={() => { setAlert({ ...alert, is_open: false }) }} autoHideDuration={5000} open={alert.is_open} anchorOrigin={{ horizontal: "center", vertical: "top" }} >
-            <Alert onClose={() => { setAlert({ ...alert, is_open: false }) }} severity={alert.status || "info"}>
+        <Snackbar 
+            onClose={() => { setNotify({ ...notify, is_open: false }) }} 
+            autoHideDuration={5000} 
+            open={notify.is_open} 
+            anchorOrigin={{ horizontal: "center", vertical: "top" }} >
+
+            <Alert onClose={() => { setNotify({ ...notify, is_open: false }) }} severity={notify.status || "info"}>
                 {
-                    prop.title ?
-                        <AlertTitle> <b> {alert.status.toUpperCase()} </b> </AlertTitle>
-                        :
-                        ""
+                    notify.title ? <AlertTitle> <b> {notify.status.toUpperCase()} </b> </AlertTitle> : ""
                 }
-                {alert.message}
+                {notify.message}
             </Alert>
+
         </Snackbar>
     )
 }
-
-// export const NotifyDialog = prop => {
-//     return (
-
-//     )
-// }
