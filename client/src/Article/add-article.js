@@ -52,7 +52,7 @@ const AddArticle = () => {
 
     return (
         <Container maxWidth="sm" className="my-5">
-            <NotifySnackbar notify={notify} />
+            <NotifySnackbar notify={notify} setNotify={setNotify} />
             <form onSubmit={submitArticle}>
                 <h1 className="text-center"> Add Article </h1>
                 <br />

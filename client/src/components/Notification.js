@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Snackbar, Alert, AlertTitle } from "@mui/material";
 
 export const NotifySnackbar = prop => {
-    const [notify, setNotify] = useState(prop.notify);
-
-    useEffect(() => { setNotify(prop.notify) }, [prop])
+    const {notify, setNotify} = prop
 
     return (
         <Snackbar 
