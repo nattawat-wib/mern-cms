@@ -1,6 +1,6 @@
 const Article = require("../model/articleModel");
 
-exports.add_article = async (req, res) => {
+exports.add_article = async (req, res) => {    
     req.body.article = JSON.parse(req.body.article);
     
     const not_valid_key = [];
@@ -68,5 +68,28 @@ exports.get_article = async (req, res) => {
     res.status(200).json({
         status: "success",
         data: article
+    })
+}
+
+exports.update_article = async (req, res) => {
+    req.body.article = JSON.parse(req.body.article)
+    
+    Object.keys(req.body.article).map(key => {
+        if(!["title", "desc", "url", "banner", "thumbnail"].includes(key)) delete req.body.article[key]
+    })
+
+    console.log(req.body.article);
+    console.log(req.files);
+    
+
+    const test = await Article.findOneAndUpdate({ url: req.body.article.url }, {
+        ...req.body.article,
+        thumbnail: req.files.thumbnail ? req.files.thumbnail[0].filename : req.body.thumbnail,
+        banner : req.files.banner ? req.files.banner[0].filename : req.body.banner,
+    }, { new : true })
+    
+    res.status(200).json({
+        status: "success",
+        message: "update success"
     })
 }

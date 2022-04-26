@@ -9,43 +9,80 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const EditArticle = () => {
-    const [article, setArticle] = useState({});
-    const [image, setImage] = useState({});
-    const [isLoading, setIsLoading] = useState(true);    
+import { NotifySnackbar } from "../components/Notification";
 
-    const handle_image_select = e => {
-        setImage(prev => ({ ...prev, [e.target.name]: e.target.files[0] }))
-    }
+const EditArticle = () => {
+    const [article, setArticle] = useState({
+        title: "",
+        desc: "",
+        url: ""
+    });
+    
+    const [image, setImage] = useState({
+        banner: "",
+        thumbnail: ""
+    });
+
+    const [isLoading, setIsLoading] = useState(true);    
+    const [notify, setNotify] = useState({
+        is_open: false,
+        status: "",
+        title: "",
+        message: ""
+    })
 
     const { url } = useParams();
 
     useEffect(() => {
         axios.get(`http://localhost:8080/article/${url}`).then(resp => {
             setArticle(resp.data.data)
-            setIsLoading(false)            
+            setImage({
+                banner: resp.data.data.banner,
+                thumbnail: resp.data.data.thumbnail,
+            })
+            setIsLoading(false)
         })
     }, [])
 
+    const handle_submit = e => {
+        e.preventDefault()
+
+        const article_form = new FormData();
+        article_form.append("article", JSON.stringify(article))
+        article_form.append("thumbnail", image.thumbnail)
+        article_form.append("banner", image.banner)
+
+        axios.put(`http://localhost:8080/article/${article.url}`, article_form).then(resp => {
+            setNotify({ is_open: true, status: resp.data.status, message: resp.data.message })
+            if(resp.data.status === "success") {
+                window.location.href = "/"
+            }
+        })
+    }
+
+    const handle_image_select = e => setImage({ ...image, [e.target.name]: e.target.files[0]})
+    const handle_article_change = e => setArticle({ ...article, [e.target.name]: e.target.value })
+
     return (
         <Fragment>
+            <NotifySnackbar notify={notify} setNotify={setNotify} />
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>                        
             <Container maxWidth="sm">
-                <form>
+                <form onSubmit={handle_submit}>
                     <h1 className="text-center"> Edit Article </h1>
                     <Divider />
-                    <TextField label="title" fullWidth size="small" className="my-4" value={article.title} />
+                    <TextField onChange={handle_article_change} label="title" name="title" fullWidth size="small" className="my-4" value={article.title} />
                     <CKEditor editor={ClassicEditor} data={article.desc || "<p> write article detail here </p>"}
                         onChange={(e, editor) => setArticle(prev_data => ({ ...prev_data, desc: editor.getData() }))}
                     />
-                    <TextField label="url" fullWidth size="small" className="my-4" value={article.url} />
+                    <TextField onChange={handle_article_change} label="url" name="url" fullWidth size="small" className="my-4" value={article.url} />
                     <h4 className="mb-0"> File upload </h4>
                     <Grid container className="text-center" spacing={2}>
                         {
                             ["thumbnail", "banner"].map((upload_for, i) => (
                                 <Grid item xs={12} sm={6} className="mt-3 mb-5" key={i}>
                                     <figure className="w-100 position-relative" style={{ paddingTop: "52.65%" }}>
-                                        <img className="fit-img" src={image[upload_for] ? URL.createObjectURL(image[upload_for]) : `${article[upload_for] ? `http://localhost:8080/uploads/${article[upload_for]}` : "https://via.placeholder.com/1920x1080.png/09f/fff"}`} />
+                                        <img className="fit-img" src={image[upload_for] ? `http://localhost:8080/uploads/${article[upload_for]}` : "https://via.placeholder.com/1920x1080.png/09f/fff" } />
                                     </figure>
                                     <Button size="small" component="label" variant="outlined" startIcon={<FileUploadIcon />}>
                                         <input type="file" name={upload_for} onChange={handle_image_select} hidden />

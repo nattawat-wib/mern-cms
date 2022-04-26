@@ -6,8 +6,25 @@ import { Link } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
+import { NotifyDialog, NotifySnackbar } from "../components/Notification";
+
 const AllArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const [notify, setNotify] = useState({
+        is_open: false,
+        title: "",
+        message: "",
+        status: "",
+    })
+    const [dialog, setDialog] = useState({
+        is_open: false,
+        title: "",
+        message: "",
+        data: {
+            id: ""
+        }
+    })
+
     const get_all_article = () => {
         axios.get("http://localhost:8080/article").then(resp => {
             set_all_article(resp.data.data)
@@ -18,15 +35,24 @@ const AllArticle = () => {
     const [all_article, set_all_article] = useState([]);
     useEffect(get_all_article, [])
 
-    const delete_article = url => {
+    const delete_article = () => {
+        const url = dialog.data.url
         axios.delete(`http://localhost:8080/article/${url}`).then(resp => {
-            if (resp.data.status == "success") get_all_article()
+            if (resp.data.status == "success") {
+                get_all_article()
+                setDialog({ ...dialog, is_open: false })
+            } else {
+                setNotify({ ...notify, is_open: true })
+            }
         })
     }
 
     return (
         <Fragment>
-            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>            
+            <NotifySnackbar notify={notify} setNotify={setNotify} />
+            <NotifyDialog dialog={dialog} setDialog={setDialog} callback={delete_article} />
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>
+            
             <Grid container spacing={3}>
                 {
                     all_article.map((article, i) => {
@@ -45,7 +71,7 @@ const AllArticle = () => {
                                         </Button>
                                     </Tooltip>
                                     <Tooltip className="mx-2 d-block" title="Delete" arrow>
-                                        <Button variant="outlined" color="warning" onClick={() => delete_article(article.url)}>
+                                        <Button variant="outlined" color="warning" onClick={() => setDialog({ ...dialog, data: { url: article.url }, is_open: true })}>
                                             <DeleteIcon />
                                         </Button>
                                     </Tooltip>
