@@ -78,14 +78,10 @@ exports.update_article = async (req, res) => {
         if(!["title", "desc", "url", "banner", "thumbnail"].includes(key)) delete req.body.article[key]
     })
 
-    console.log(req.body.article);
-    console.log(req.files);
-    
-
     const test = await Article.findOneAndUpdate({ url: req.body.article.url }, {
         ...req.body.article,
-        thumbnail: req.files.thumbnail ? req.files.thumbnail[0].filename : req.body.thumbnail,
-        banner : req.files.banner ? req.files.banner[0].filename : req.body.banner,
+        thumbnail: req.files.thumbnail ? req.files.thumbnail[0].filename : req.body.article.thumbnail,
+        banner : req.files.banner ? req.files.banner[0].filename : req.body.article.banner,
     }, { new : true })
     
     res.status(200).json({
