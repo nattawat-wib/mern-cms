@@ -9,7 +9,7 @@ const Detail_article = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {        
-        axios.get(`http://localhost:8080/article/${url}`).then(resp => {
+        axios.get(`${process.env.REACT_APP_API_URL}/article/${url}`).then(resp => {
             setArticle(resp.data.data)
             setIsLoading(false)
         })

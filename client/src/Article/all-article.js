@@ -26,7 +26,7 @@ const AllArticle = () => {
     })
 
     const get_all_article = () => {
-        axios.get("http://localhost:8080/article").then(resp => {
+        axios.get(`${process.env.REACT_APP_API_URL}/article`).then(resp => {
             set_all_article(resp.data.data)
             setIsLoading(false)
         })
@@ -37,7 +37,7 @@ const AllArticle = () => {
 
     const delete_article = () => {
         const url = dialog.data.url
-        axios.delete(`http://localhost:8080/article/${url}`).then(resp => {
+        axios.delete(`${process.env.REACT_APP_API_URL}/article/${url}`).then(resp => {
             if (resp.data.status == "success") {
                 get_all_article()
                 setDialog({ ...dialog, is_open: false })

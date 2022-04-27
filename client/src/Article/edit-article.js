@@ -19,8 +19,8 @@ const EditArticle = () => {
     });
     
     const [image, setImage] = useState({
-        banner: "",
-        thumbnail: ""
+        banner: null, // from input type file
+        thumbnail: null // from input type file
     });
 
     const [isLoading, setIsLoading] = useState(true);    
@@ -34,7 +34,7 @@ const EditArticle = () => {
     const { url } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/article/${url}`).then(resp => {
+        axios.get(`${process.env.REACT_APP_API_URL}/article/${url}`).then(resp => {
             setArticle(resp.data.data)
             setImage({
                 banner: resp.data.data.banner,
@@ -46,13 +46,12 @@ const EditArticle = () => {
 
     const handle_submit = e => {
         e.preventDefault()
-
         const article_form = new FormData();
         article_form.append("article", JSON.stringify(article))
         article_form.append("thumbnail", image.thumbnail)
         article_form.append("banner", image.banner)
 
-        axios.put(`http://localhost:8080/article/${article.url}`, article_form).then(resp => {
+        axios.put(`${process.env.REACT_APP_API_URL}/article/${article.url}`, article_form).then(resp => {
             setNotify({ is_open: true, status: resp.data.status, message: resp.data.message })
             if(resp.data.status === "success") {
                 window.location.href = "/"
@@ -76,7 +75,6 @@ const EditArticle = () => {
                         onChange={(e, editor) => setArticle(prev_data => ({ ...prev_data, desc: editor.getData() }))}
                     />
                     <TextField onChange={handle_article_change} label="url" name="url" fullWidth size="small" className="my-4" value={article.url} />
-                    <h4 className="mb-0"> File upload </h4>
                     <Grid container className="text-center" spacing={2}>
                         {
                             ["thumbnail", "banner"].map((upload_for, i) => (
