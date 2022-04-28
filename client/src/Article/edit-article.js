@@ -37,13 +37,7 @@ const EditArticle = () => {
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/article/${url}`).then(resp => {
-            console.log(resp);
-            
             setArticle(resp.data.data)
-            // setImage({
-            //     banner: resp.data.data.banner,
-            //     thumbnail: resp.data.data.thumbnail,
-            // })
             setIsLoading(false)
         })
     }, [])
@@ -67,6 +61,11 @@ const EditArticle = () => {
     const handle_image_select = e => {
         article[e.target.name] = null
         setImage({ ...image, [e.target.name]: e.target.files[0]})
+    }
+
+    const handle_image_delete = (upload_for) => {
+        setArticle({ ...article, [upload_for]: null})
+        setImage({ ...image, [upload_for]: null})
     }
 
     const handle_article_change = e => setArticle({ ...article, [e.target.name]: e.target.value })
@@ -96,7 +95,7 @@ const EditArticle = () => {
                                         <input type="file" name={upload_for} onChange={handle_image_select} hidden />
                                         {upload_for}
                                     </Button>
-                                    {image[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} className="text-danger" /> : null}
+                                    {image[upload_for] || article[upload_for] ? <DeleteIcon onClick={() => handle_image_delete(upload_for)} className="text-danger" /> : null}
                                 </Grid>
                             ))
                         }
