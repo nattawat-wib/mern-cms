@@ -96,7 +96,7 @@ const EditArticle = () => {
                                         <input type="file" name={upload_for} onChange={handle_image_select} hidden />
                                         {upload_for}
                                     </Button>
-                                    {image[upload_for] || article[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} className="text-danger" /> : null}
+                                    {image[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} className="text-danger" /> : null}
                                 </Grid>
                             ))
                         }
