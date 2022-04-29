@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Tooltip, Backdrop, CircularProgress } from "@mui/material";
+import { Button, Grid, Tooltip, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -38,7 +38,7 @@ const AllArticle = () => {
     const delete_article = () => {
         const url = dialog.data.url
         axios.delete(`${process.env.REACT_APP_API_URL}/article/${url}`).then(resp => {
-            if (resp.data.status == "success") {
+            if (resp.data.status === "success") {
                 get_all_article()
                 setDialog({ ...dialog, is_open: false })
             } else {
@@ -51,21 +51,20 @@ const AllArticle = () => {
         <Fragment>
             <NotifySnackbar notify={notify} setNotify={setNotify} />
             <NotifyDialog dialog={dialog} setDialog={setDialog} callback={delete_article} />
-            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading} > <CircularProgress color="inherit" /> </Backdrop>
-            
+
             <Grid container spacing={3}>
                 {
                     all_article.map((article, i) => {
                         return (
                             <Grid item xs={4} key={i}>
-                                <h2 className="line-clamp-2"> {article.title} </h2>
+                                <Typography sx={{ fontSize: "2rem" }} variant="h2" className="line-clamp-2"> {article.title} </Typography>
                                 <p className="line-clamp-4" dangerouslySetInnerHTML={{ __html: article.desc }} />
                                 <figure className="position-relative" style={{ paddingTop: "56.26%" }}>
                                     <img className="fit-img" src={`http://localhost:8080/uploads/${article.thumbnail}`} />
                                 </figure>
                                 <small> Date : {article.createdDate} </small>
                                 <div className="mt-3 d-flex justify-content-center">
-                                    <Tooltip className="mx-2 d-block" title="Edit" arrow>
+                                    <Tooltip sx={{ mx: 1, display: "block" }} title="Edit" arrow>
                                         <Button variant="outlined" color="secondary" component={Link} to={`/article/edit/${article.url}`}>
                                             <EditIcon />
                                         </Button>
