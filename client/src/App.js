@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { green, pink, lightBlue } from "@mui/material/colors";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
@@ -11,18 +10,18 @@ import EditArticle from "./article/edit-article";
 
 const main_theme = createTheme({
     palette: {
-        secondary: {
-            main: pink[500],
-            light: lightBlue[900]
-        },
         primary: {
-            main: lightBlue[300],
-            contrastText: lightBlue[50]
+            main: "#64B5F6",
+            contrastText: "#E3F2FD"
+        },
+        secondary: {
+            main: "#ffafcc",
+        },
+        gray: {
+            "50": "#E3F2FD"
         }
     }
 })
-
-console.log(main_theme);
 
 function App() {
     return (

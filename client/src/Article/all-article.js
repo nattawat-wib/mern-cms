@@ -1,12 +1,14 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Tooltip, Typography } from "@mui/material";
+import { Button, Grid, Tooltip, Typography, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { NotifyDialog, NotifySnackbar } from "../components/Notification";
+import { CardTitle, CartDetail, CardWrapper, CardThumbnail } from "./components/article-card";
 
 const AllArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -57,25 +59,31 @@ const AllArticle = () => {
                     all_article.map((article, i) => {
                         return (
                             <Grid item xs={4} key={i}>
-                                <Typography sx={{ fontSize: "2rem" }} variant="h2" className="line-clamp-2"> {article.title} </Typography>
-                                <p className="line-clamp-4" dangerouslySetInnerHTML={{ __html: article.desc }} />
-                                <figure className="position-relative" style={{ paddingTop: "56.26%" }}>
-                                    <img className="fit-img" src={`http://localhost:8080/uploads/${article.thumbnail}`} />
-                                </figure>
-                                <small> Date : {article.createdDate} </small>
-                                <div className="mt-3 d-flex justify-content-center">
-                                    <Tooltip sx={{ mx: 1, display: "block" }} title="Edit" arrow>
-                                        <Button variant="outlined" color="secondary" component={Link} to={`/article/edit/${article.url}`}>
-                                            <EditIcon />
-                                        </Button>
-                                    </Tooltip>
-                                    <Tooltip className="mx-2 d-block" title="Delete" arrow>
-                                        <Button variant="outlined" color="warning" onClick={() => setDialog({ ...dialog, data: { url: article.url }, is_open: true })}>
-                                            <DeleteIcon />
-                                        </Button>
-                                    </Tooltip>
-                                    <Button variant="outlined" className="mx-2 d-block" component={Link} to={`/article/${article.url}`}> Read More... </Button>
-                                </div>
+                                <CardWrapper>
+                                    <CardTitle variant="h2" mb={2}> {article.title} </CardTitle>
+                                    <CartDetail dangerouslySetInnerHTML={{ __html: article.desc }} />
+                                    <CardThumbnail>
+                                        <img className="fit-img" src={`http://localhost:8080/uploads/${article.thumbnail}`} />
+                                    </CardThumbnail>
+
+                                    <small className="d-flex align-items-center"> 
+                                        <CalendarMonthIcon color="primary" sx={{mr: .5}} />
+                                        {article.createdDate} 
+                                    </small>
+                                    <div className="mt-3 d-flex justify-content-center">
+                                        <Tooltip title="Edit" arrow>
+                                            <IconButton size="small" color="secondary" component={Link} to={`/article/edit/${article.url}`}>
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip sx={{ mx: 2}} title="Delete" arrow>
+                                            <IconButton size="small" color="warning" onClick={() => setDialog({ ...dialog, data: { url: article.url }, is_open: true })}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Button variant="outlined" size="small" component={Link} to={`/article/${article.url}`}> Read More... </Button>
+                                    </div>
+                                </CardWrapper>
                             </Grid>
                         )
                     })

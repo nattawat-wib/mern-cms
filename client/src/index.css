@@ -33,3 +33,7 @@ code {
     -webkit-box-orient: vertical;  
     overflow: hidden;
 }
+
+.primary {
+    color: red;
+}
