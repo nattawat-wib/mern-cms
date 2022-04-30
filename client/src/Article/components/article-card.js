@@ -15,8 +15,9 @@ export const CardWrapper = styled.article`
 `
 
 export const CardTitle = styled(Typography)`
-    height: 76px;
-    font-size: 2rem;
+    height: 65px;
+    font-size: 1.5rem;
+    padding: 7px 2px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  

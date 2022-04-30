@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Tooltip, Typography, IconButton } from "@mui/material";
+import { Button, Grid, Tooltip, Container, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -50,7 +50,7 @@ const AllArticle = () => {
     }
 
     return (
-        <Fragment>
+        <Container maxWidth="lg">
             <NotifySnackbar notify={notify} setNotify={setNotify} />
             <NotifyDialog dialog={dialog} setDialog={setDialog} callback={delete_article} />
 
@@ -58,7 +58,7 @@ const AllArticle = () => {
                 {
                     all_article.map((article, i) => {
                         return (
-                            <Grid item xs={4} key={i}>
+                            <Grid item xs={12} sm={6} md={4} key={i}>
                                 <CardWrapper>
                                     <CardTitle variant="h2" mb={2}> {article.title} </CardTitle>
                                     <CartDetail dangerouslySetInnerHTML={{ __html: article.desc }} />
@@ -89,7 +89,7 @@ const AllArticle = () => {
                     })
                 }
             </Grid>
-        </Fragment>
+        </Container>
     )
 }
 
