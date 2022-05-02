@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Tooltip, Container, IconButton } from "@mui/material";
+import { Button, Grid, Tooltip, Container, IconButton, Typography, CssBaseline } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { NotifyDialog, NotifySnackbar } from "../components/Notification";
-import { CardTitle, CartDetail, CardWrapper, CardThumbnail } from "./components/article-card";
+import { CardTitle, CartDetail, CardWrapper, CardThumbnail } from "./components/article-card.styled";
 
 const AllArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -53,6 +53,7 @@ const AllArticle = () => {
         <Container maxWidth="lg">
             <NotifySnackbar notify={notify} setNotify={setNotify} />
             <NotifyDialog dialog={dialog} setDialog={setDialog} callback={delete_article} />
+            <CssBaseline />
 
             <Grid container spacing={3}>
                 {
@@ -60,23 +61,25 @@ const AllArticle = () => {
                         return (
                             <Grid item xs={12} sm={6} md={4} key={i}>
                                 <CardWrapper>
-                                    <CardTitle variant="h2" mb={2}> {article.title} </CardTitle>
+                                    <CardTitle variant="h5" component="h2" mb={2}> {article.title} </CardTitle>
                                     <CartDetail dangerouslySetInnerHTML={{ __html: article.desc }} />
-                                    <CardThumbnail>
+                                    <CardThumbnail className="my-4">
                                         <img className="fit-img" src={`http://localhost:8080/uploads/${article.thumbnail}`} />
                                     </CardThumbnail>
 
-                                    <small className="d-flex align-items-center"> 
-                                        <CalendarMonthIcon color="primary" sx={{mr: .5}} />
-                                        {article.createdDate} 
+                                    <small className="flex items-center">
+                                        <CalendarMonthIcon color="primary" sx={{ mr: .5 }} />
+                                        <Typography variant="inline" color="textSecondary">
+                                            {article.createdDate}
+                                        </Typography>
                                     </small>
-                                    <div className="mt-3 d-flex justify-content-center">
+                                    <div className="mt-3 flex justify-center">
                                         <Tooltip title="Edit" arrow>
                                             <IconButton size="small" color="secondary" component={Link} to={`/article/edit/${article.url}`}>
                                                 <EditIcon />
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip sx={{ mx: 2}} title="Delete" arrow>
+                                        <Tooltip sx={{ mx: 2 }} title="Delete" arrow>
                                             <IconButton size="small" color="warning" onClick={() => setDialog({ ...dialog, data: { url: article.url }, is_open: true })}>
                                                 <DeleteIcon />
                                             </IconButton>

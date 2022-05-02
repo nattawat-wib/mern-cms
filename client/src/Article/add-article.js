@@ -67,21 +67,21 @@ const AddArticle = () => {
                     {
                         ["thumbnail", "banner"].map((upload_for, i) => (
                             <Grid item xs={12} sm={6} className="mt-3 mb-5" key={i}>
-                                <figure className="w-100 position-relative" style={{ paddingTop: "52.65%" }}>
+                                <figure className="relative mb-3" style={{ paddingTop: "52.65%" }}>
                                     <img className="fit-img" src={image[upload_for] ? URL.createObjectURL(image[upload_for]) : "https://via.placeholder.com/1920x1080.png/09f/fff"} />
                                 </figure>
                                 <Button size="small" component="label" variant="outlined" startIcon={<FileUploadIcon />}>
                                     <input type="file" name={upload_for} onChange={handle_image_select} hidden />
                                     {upload_for}
                                 </Button>
-                                {image[upload_for] ? <DeleteIcon onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} className="text-danger" /> : null}
+                                {image[upload_for] ? <DeleteIcon color="error" onClick={() => setImage(prev => ({ ...prev, [upload_for]: null }))} /> : null}
                             </Grid>
                         ))
                     }
                 </Grid>
 
-                <div className="text-end">
-                    <Button type="submit" startIcon={<AddCircleIcon />} variant="contained"> Add Article </Button>
+                <div className="text-right">
+                    <Button type="submit" className="bg-primary" variant="contained" startIcon={<AddCircleIcon />} > Add Article </Button>
                 </div>
 
             </form>

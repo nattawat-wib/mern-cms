@@ -1,14 +1,7 @@
 import { Link } from "react-router-dom";
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import { Box, Drawer, Button, List, Divider, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Container } from "@mui/material";
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ListIcon from '@mui/icons-material/List';
@@ -37,7 +30,7 @@ const Navbar = () => {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {[ {name:'Home', url: "/"}, {name:'Add Article', url: "/article/add"}, {name:'All Article', url:"/article"}].map((text, index) => (
+                {[{ name: 'Home', url: "/" }, { name: 'Add Article', url: "/article/add" }, { name: 'All Article', url: "/article" }].map((text, index) => (
                     <ListItem button key={index} component={Link} to={text.url}>
                         <ListItemIcon>
                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -51,13 +44,42 @@ const Navbar = () => {
     );
 
     return (
-        <nav className="d-flex justify-content-between align-items-center px-3 py-1 bg-info" key={"left"}>
-            <Link to={"/"} className="mb-0 fw-bold text-light text-decoration-none"> <h1> MERN CMS </h1> </Link>
-            <Button variant="contained" color="primary" startIcon={<ListIcon />} onClick={toggleDrawer("left", true)}> Menu </Button>
+        <AppBar position="sticky">
+            <Container>
+                <Toolbar className="justify-between">
+                    <Link to={"/"} className="mb-0 fw-bold text-light text-decoration-none"> MERN CMS  </Link>
+                    <Box>
+                        <Button className="block md:hidden" variant="contained" color="primary" onClick={toggleDrawer("left", true)} >
+                            <ListIcon />
+                        </Button>
+
+                        <List className="hidden md:flex whitespace-nowrap">
+                            <ListItem>
+                                <Button color="light" component={Link} to={"/"}> Home</Button>
+                            </ListItem>
+                            <ListItem>
+                                <Button color="light" component={Link} to={"/article"}> all article </Button>
+                            </ListItem>
+                            <ListItem>
+                                <Button color="light" component={Link} to={"/article/add"}> add article </Button>
+                            </ListItem>
+                        </List>
+                    </Box>
+                </Toolbar>
+            </Container>
+
             <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
                 {list("left")}
             </Drawer>
-        </nav>
+        </AppBar>
+
+        // <nav className="d-flex justify-content-between align-items-center px-3 py-1 bg-info" key={"left"}>
+        //     <Link to={"/"} className="mb-0 fw-bold text-light text-decoration-none"> <h1> MERN CMS </h1> </Link>
+        //     <Button variant="contained" color="primary" startIcon={<ListIcon />} onClick={toggleDrawer("left", true)}> Menu </Button>
+        //     <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
+        //         {list("left")}
+        //     </Drawer>
+        // </nav>
     );
 }
 

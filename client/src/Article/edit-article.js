@@ -87,7 +87,7 @@ const EditArticle = () => {
                         {
                             ["thumbnail", "banner"].map((upload_for, i) => (
                                 <Grid item xs={12} sm={6} className="mt-3 mb-5" key={i}>
-                                    <figure className="w-100 position-relative" style={{ paddingTop: "52.65%" }}>
+                                    <figure className="mb-3 relative" style={{ paddingTop: "52.65%" }}>
                                         {/* <img className="fit-img" src={article[upload_for] ? `http://localhost:8080/uploads/${article[upload_for]}` : image[upload_for] ? URL.createObjectURL(image[upload_for]) : "https://via.placeholder.com/1920x1080.png/09f/fff" } /> */}
                                         <img className="fit-img" src={article[upload_for] ? `http://localhost:8080/uploads/${article[upload_for]}` : image[upload_for] ? URL.createObjectURL(image[upload_for]) : "https://via.placeholder.com/1920x1080.png/09f/fff" } />
                                     </figure>
@@ -95,13 +95,13 @@ const EditArticle = () => {
                                         <input type="file" name={upload_for} onChange={handle_image_select} hidden />
                                         {upload_for}
                                     </Button>
-                                    {image[upload_for] || article[upload_for] ? <DeleteIcon onClick={() => handle_image_delete(upload_for)} className="text-danger" /> : null}
+                                    {image[upload_for] || article[upload_for] ? <DeleteIcon color="error" onClick={() => handle_image_delete(upload_for)} /> : null}
                                 </Grid>
                             ))
                         }
                     </Grid>
-                    <div className="text-end">
-                        <Button type="submit" startIcon={<AddCircleIcon />} variant="contained"> Edit Article </Button>
+                    <div className="text-right">
+                        <Button type="submit" className="bg-primary" startIcon={<AddCircleIcon />} variant="contained"> Edit Article </Button>
                     </div>
                 </form>
 

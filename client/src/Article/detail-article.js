@@ -21,7 +21,7 @@ const Detail_article = () => {
             <Container maxWidth="md">
                 <h1> {article.title} </h1>
                 <small> {article.createdDate} </small>
-                <figure className="position-relative" style={{paddingTop: "40.26%"}}>
+                <figure className="relative my-4" style={{paddingTop: "40.26%"}}>
                         <img className="fit-img" src={`http://localhost:8080/uploads/${article.banner}`} />
                 </figure>
                 <section>
